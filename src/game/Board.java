@@ -11,7 +11,7 @@ public class Board {
 
     private void initializePieces() {
 
-        // Czarna linia figur (górny rząd, indeks 0)
+        // Black figures
         board[0][0] = new pieces.Rook(false);
         board[0][1] = new pieces.Knight(false);
         board[0][2] = new pieces.Bishop(false);
@@ -21,22 +21,15 @@ public class Board {
         board[0][6] = new pieces.Knight(false);
         board[0][7] = new pieces.Rook(false);
 
-        for (int i = 0; i < 8; i++) {
-            System.out.println("Czarna figura: " + board[0][i] + " na pozycji 0," + i);
-        }
-
-        // Czarny rząd pionków (drugi rząd, indeks 1)
+        //Black pawns
         for (int x = 0; x < 8; x++) {
             board[1][x] = new pieces.Pawn(false);
-            System.out.println("Czarny pionek: " + board[1][x] + " na pozycji 1," + x);
         }
-
-        // Białe pionki (przedostatni rząd, indeks 6)
+        //White pawns
         for (int x = 0; x < 8; x++) {
             board[6][x] = new pieces.Pawn(true);
-            System.out.println("Biały pionek: " + board[6][x] + " na pozycji 6," + x);
         }
-
+        //White figures
         board[7][0] = new pieces.Rook(true);
         board[7][1] = new pieces.Knight(true);
         board[7][2] = new pieces.Bishop(true);
@@ -45,16 +38,10 @@ public class Board {
         board[7][5] = new pieces.Bishop(true);
         board[7][6] = new pieces.Knight(true);
         board[7][7] = new pieces.Rook(true);
-
-        for (int i = 0; i < 8; i++) {
-            System.out.println("Biała figura: " + board[7][i] + " na pozycji 7," + i);
-        }
-
     }
 
 
     public void printBoard() {
-        // Górne oznaczenie kolumn
         System.out.println("   A B C D E F G H");
 
         for (int y = 0; y < 8; y++) {
