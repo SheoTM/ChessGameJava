@@ -1,34 +1,42 @@
 package pieces;
-//TODO: Prawidłowy ruch wieżą, pewnie innymi figurami też.
+
 public class Rook extends Piece {
     public Rook(boolean isWhite) {
         super(isWhite);
     }
 
     @Override
-    public boolean isValidMove(int startX, int startY, int endX, int endY, Piece[][] board) {
+    public boolean isValidMove(int startRow, int startCol, int endRow, int endCol, Piece[][] board) {
 
-        if (startX == endX || startY == endY) {
-
-            int dx = Integer.signum(endX - startX);
-            int dy = Integer.signum(endY - startY);
-
-            int x = startX + dx;
-            int y = startY + dy;
-
-            while (x != endX || y != endY) {
-                if (board[y][x] != null) {
-                    return false;
-                }
-                x += dx;
-                y += dy;
-            }
-
-            return board[endY][endX] == null || board[endY][endX].isWhite() != this.isWhite();
+        if (startRow != endRow && startCol != endCol) {
+            System.out.println("Movement is neither vertical or horizontal.");
+            return false;
         }
 
-        System.out.println("Ruch nie jest pionowy ani poziomy");
-        return false;
+        // Directions: rowDir, colDir
+        int rowDir = Integer.compare(endRow, startRow);
+        int colDir = Integer.compare(endCol, startCol);
+
+        // Current position during iteration
+        int currentRow = startRow + rowDir;
+        int currentCol = startCol + colDir;
+
+        while (currentRow != endRow || currentCol != endCol) {
+
+            // If anything is in the way, the movement is illegal
+            if (board[currentRow][currentCol] != null) {
+                System.out.println("Ruch zablokowany przez: " + board[currentRow][currentCol]);
+                return false;
+            }
+
+            currentRow += rowDir;
+            currentCol += colDir;
+        }
+
+        Piece targetPiece = board[endRow][endCol];
+
+        // If the square is empty or there is a piece of a different color there, the move is legal
+        return (targetPiece == null) || (targetPiece.isWhite() != this.isWhite());
     }
 
     @Override
