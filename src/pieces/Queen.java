@@ -32,6 +32,6 @@ public class Queen extends Piece {
 
     @Override
     public String toString() {
-        return isWhite() ? "Q" : "q";
+        return isWhite() ? "\u2655" : "\u265B";
     }
 }

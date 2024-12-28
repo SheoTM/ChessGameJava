@@ -41,6 +41,6 @@ public class Rook extends Piece {
 
     @Override
     public String toString() {
-        return isWhite() ? "R" : "r";
+        return isWhite() ? "\u2656" : "\u265C ";
     }
 }
