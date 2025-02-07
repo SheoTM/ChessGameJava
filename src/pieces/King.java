@@ -1,24 +1,30 @@
 package pieces;
 
 public class King extends Piece {
+
     public King(boolean isWhite) {
         super(isWhite);
     }
 
     @Override
-    public boolean isValidMove(int startX, int startY, int endX, int endY, Piece[][] board) {
-        int dx = Math.abs(endX - startX);
-        int dy = Math.abs(endY - startY);
+    public boolean isValidMove(int startRow, int startCol, int endRow, int endCol, Piece[][] board) {
+        int rowDiff = Math.abs(endRow - startRow);
+        int colDiff = Math.abs(endCol - startCol);
 
-        // King moves
-        if ((dx <= 1 && dy <= 1) && (board[endX][endY] == null || board[endX][endY].isWhite() != isWhite())) {
-            return true;
+        if (rowDiff > 1 || colDiff > 1) {
+            return false;
         }
-        return false;
+
+        // Nie może zbić własnej figury
+        Piece target = board[endRow][endCol];
+        if (target != null && target.isWhite() == this.isWhite()) {
+            return false;
+        }
+        return true;
     }
 
     @Override
     public String toString() {
-        return isWhite() ? "\u265A" : "\u2654";
+        return isWhite() ? "1K" : "2k";
     }
 }

@@ -1,24 +1,64 @@
 package game;
 
+/**
+ * Klasa reprezentująca pojedynczy ruch w szachach.
+ * Obsługuje zarówno standardowe ruchy (np. "e2e4") jak i roszady ("O-O" oraz "O-O-O")
+ */
+
 public class Move {
     private int startX, startY;
     private int endX, endY;
     private boolean isWhiteTurn;
+    private boolean isCastling;
+    private boolean isKingside;
 
-    public Move(String move, boolean isWhiteTurn) {
+    public Move(String moveStr, boolean isWhiteTurn) {
         this.isWhiteTurn = isWhiteTurn;
-        if (move.length() != 4) {
-            throw new IllegalArgumentException("Move must be 4 characters long");
+        this.isCastling = false;
+        this.isKingside = false;
+
+        if (moveStr.equalsIgnoreCase("O-O")) {
+            // Roszada krótsza
+            this.isCastling = true;
+            this.isKingside = true;
+            if (isWhiteTurn) {
+                this.startY = 7;
+                this.startX = 4;
+                this.endY = 7;
+                this.endX = 6;
+            } else {
+                this.startY = 0;
+                this.startX = 4;
+                this.endY = 0;
+                this.endX = 6;
+            }
+        } else if (moveStr.equalsIgnoreCase("O-O-O")) {
+            // Roszada dłuższa
+            this.isCastling = true;
+            this.isKingside = false;
+            if (isWhiteTurn) {
+                this.startY = 7;
+                this.startX = 4;
+                this.endY = 7;
+                this.endX = 2;
+            } else {
+                this.startY = 0;
+                this.startX = 4;
+                this.endY = 0;
+                this.endX = 2;
+            }
+        } else {
+            if (moveStr.length() != 4) {
+                throw new IllegalArgumentException("Ruch musi mieć długość 4 znaków lub być prawidłowym ruchem roszady (O-O or O-O-O)");
+            }
+            this.startX = moveStr.charAt(0) - 'a';
+            this.startY = 8 - Character.getNumericValue(moveStr.charAt(1));
+            this.endX = moveStr.charAt(2) - 'a';
+            this.endY = 8 - Character.getNumericValue(moveStr.charAt(3));
         }
 
-        this.startY = 8 - Character.getNumericValue(move.charAt(1));
-        this.startX = move.charAt(0) - 'a';
-        this.endY = 8 - Character.getNumericValue(move.charAt(3));
-        this.endX = move.charAt(2) - 'a';
-        this.isWhiteTurn = isWhiteTurn;
-
         if (!isValidCoordinates()) {
-            throw new IllegalArgumentException("Move out of bounds.");
+            throw new IllegalArgumentException("Pisz małymi literami/Wyszedłeś za planszę");
         }
     }
 
@@ -45,5 +85,13 @@ public class Move {
 
     public boolean isWhiteTurn() {
         return isWhiteTurn;
+    }
+
+    public boolean isCastling() {
+        return isCastling;
+    }
+
+    public boolean isKingside() {
+        return isKingside;
     }
 }

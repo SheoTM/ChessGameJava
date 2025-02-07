@@ -1,37 +1,29 @@
 package pieces;
 
 public class Bishop extends Piece {
+
     public Bishop(boolean isWhite) {
         super(isWhite);
     }
 
     @Override
-    public boolean isValidMove(int startX, int startY, int endX, int endY, Piece[][] board) {
-        int dx = Math.abs(endX - startX);
-        int dy = Math.abs(endY - startY);
+    public boolean isValidMove(int startRow, int startCol, int endRow, int endCol, Piece[][] board) {
+        int rowDiff = Math.abs(endRow - startRow);
+        int colDiff = Math.abs(endCol - startCol);
 
-        //Check move
-        if (dx == dy) {
-            int stepX = Integer.signum(endX - startX);
-            int stepY = Integer.signum(endY - startY);
-
-            int x = startX + stepX;
-            int y = startY + stepY;
-
-            while (x != endX && y != endY) {
-                if (board[x][y] != null) {
-                    return false; // Path blocked
-                }
-                x += stepX;
-                y += stepY;
-            }
-            return true; // Move correct
+        if (rowDiff != colDiff) {
+            return false;
         }
-        return false; // Illegal move
+        if (!isPathClear(startRow, startCol, endRow, endCol, board)) {
+            return false;
+        }
+
+        Piece target = board[endRow][endCol];
+        return target == null || target.isWhite() != this.isWhite();
     }
 
     @Override
     public String toString() {
-        return isWhite() ? "\u2657" : "\u265D";
+        return isWhite() ? "1B" : "2b";
     }
 }

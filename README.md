@@ -1,1 +1,1 @@
-# ChessGameJava
+Szachy: Projekt 2 – Program do gry w szachy dla dwóch osób. Szachownica rysowana jest na podstawie symboli w kodzie ASCII. W programie uwzględniamy sposób poruszania się wszystkich figur. Ponadto uwzględnić należy: danie mata; szach; pat; roszadę; en passant (bicie w przelocie). Partia powinna być zapisana do pliku w szachowej notacji algebraicznej.

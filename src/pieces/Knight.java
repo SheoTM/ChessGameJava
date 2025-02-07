@@ -1,25 +1,26 @@
 package pieces;
 
 public class Knight extends Piece {
+
     public Knight(boolean isWhite) {
         super(isWhite);
     }
 
     @Override
-    public boolean isValidMove(int startX, int startY, int endX, int endY, Piece[][] board) {
-        int dx = Math.abs(endX - startX);
-        int dy = Math.abs(endY - startY);
+    public boolean isValidMove(int startRow, int startCol, int endRow, int endCol, Piece[][] board) {
+        int rowDiff = Math.abs(endRow - startRow);
+        int colDiff = Math.abs(endCol - startCol);
 
-        // Moves Knight
-        if ((dx == 2 && dy == 1) || (dx == 1 && dy == 2)) {
-            // Check if own piece is on the same spot
-            return board[endX][endY] == null || board[endX][endY].isWhite() != isWhite();
+        // Skoczek w "L": (2,1) lub (1,2)
+        if ((rowDiff == 2 && colDiff == 1) || (rowDiff == 1 && colDiff == 2)) {
+            Piece target = board[endRow][endCol];
+            return target == null || target.isWhite() != this.isWhite();
         }
         return false;
     }
 
     @Override
     public String toString() {
-        return isWhite() ? "\u2658 " : "\u265E";
+        return isWhite() ? "1N" : "2n";
     }
 }

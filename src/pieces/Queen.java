@@ -1,37 +1,30 @@
 package pieces;
 
 public class Queen extends Piece {
+
     public Queen(boolean isWhite) {
         super(isWhite);
     }
 
     @Override
-    public boolean isValidMove(int startX, int startY, int endX, int endY, Piece[][] board) {
-        int dx = Math.abs(endX - startX);
-        int dy = Math.abs(endY - startY);
+    public boolean isValidMove(int startRow, int startCol, int endRow, int endCol, Piece[][] board) {
+        int rowDiff = Math.abs(endRow - startRow);
+        int colDiff = Math.abs(endCol - startCol);
 
-        // move like Bishop/Rook
-        if (dx == dy || startX == endX || startY == endY) {
-            int stepX = Integer.signum(endX - startX);
-            int stepY = Integer.signum(endY - startY);
-
-            int x = startX + stepX;
-            int y = startY + stepY;
-
-            while (x != endX || y != endY) {
-                if (board[x][y] != null) {
-                    return false; // Path blocked
-                }
-                x += stepX;
-                y += stepY;
-            }
-            return true; // Legal move
+        if (rowDiff != colDiff && startRow != endRow && startCol != endCol) {
+            return false;
         }
-        return false; // Illegal move
+
+        if (!isPathClear(startRow, startCol, endRow, endCol, board)) {
+            return false;
+        }
+
+        Piece target = board[endRow][endCol];
+        return target == null || target.isWhite() != this.isWhite();
     }
 
     @Override
     public String toString() {
-        return isWhite() ? "\u2655" : "\u265B";
+        return isWhite() ? "1Q" : "2q";
     }
 }
